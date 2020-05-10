@@ -1,0 +1,17 @@
+name: Build document
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v1
+      - name: Compile document
+        uses: xu-cheng/latex-action@master
+        with:
+	  root_files: Arbeit.tex
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Document
+          path: Arbeit.pdf
