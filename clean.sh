@@ -1,28 +1,27 @@
 #!/bin/sh
-rm -rf *.blg
-rm -rf *.aux
-rm -rf *.idx
-rm -rf *.ind
-rm -rf *.toc
-rm -rf *.lof
-rm -rf *.lot
-rm -rf *.mpx
-rm -rf *.tex1
-rm -rf *.txt1
-rm -rf *.undo
-rm -rf *.bbl
-rm -rf *.brf
-rm -rf *.ilg
-rm -rf *.log
-rm -rf *.lol
-rm -rf *.nlo
-rm -rf *.nls
-rm -rf *.out
-rm -rf *.bak
-rm -rf *.glg
-rm -rf *.glo
-rm -rf *.gls
-rm -rf *.glsdefs
-rm -rf *.ist
-rm -rf *.pdf
-rm -rf *.gz
+find . -name "*.blg" -type f -delete
+find . -name "*.aux" -type f -delete
+find . -name "*.idx" -type f -delete
+find . -name "*.ind" -type f -delete
+find . -name "*.toc" -type f -delete
+find . -name "*.lof" -type f -delete
+find . -name "*.lot" -type f -delete
+find . -name "*.mpx" -type f -delete
+find . -name "*.tex1" -type f -delete
+find . -name "*.txt1" -type f -delete
+find . -name "*.undo" -type f -delete
+find . -name "*.bbl" -type f -delete
+find . -name "*.brf" -type f -delete
+find . -name "*.ilg" -type f -delete
+find . -name "*.log" -type f -delete
+find . -name "*.lol" -type f -delete
+find . -name "*.nlo" -type f -delete
+find . -name "*.nls" -type f -delete
+find . -name "*.out" -type f -delete
+find . -name "*.bak" -type f -delete
+find . -name "*.glg" -type f -delete
+find . -name "*.glo" -type f -delete
+find . -name "*.gls" -type f -delete
+find . -name "*.glsdefs" -type f -delete
+find . -name "*.ist" -type f -delete
+find . -name "*.gz" -type f -delete
