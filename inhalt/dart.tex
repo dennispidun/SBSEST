@@ -5,7 +5,7 @@ zufällige Eingabewerte für das zu testende Programm erzeugt. In einigen Fällen e
 Fehler im Quellcode finden kann. In anderen Fällen durchläuft man dadurch jedoch nicht die gewünschten Programmpfade,
 wodurch sich vermeintliche Fehler nicht aufspüren lassen. An diesem Punkt kann DART unterstützend wirken, da es mithilfe
 des Suchalgorithmus Eingabevektoren erzeugen kann, welche jeden Programmpfad ablaufen lassen können \cite{godefroid2005dart}.
-Außerdem kann DART Standardfehler erkennen. Unteranderem erkennt es Programmabstürze, Assertion Violations und Non-Terminations
+Außerdem kann DART Standardfehler erkennen. Unter anderem erkennt es Programmabstürze, Assertion Violations und Non-Terminations
 \cite{godefroid2005dart}. Da sich durch Randomtesting, keine hohe Codecoverage erhalten lässt wird der Ansatz derart erweitert,
 dass dieser zielgerichtet versucht gewisse Eingabewerte schnell zu erzeugen. Wenn beispielsweise eine Bedingung lautet:
 ``if (x == 10) then ...'', ist die Chance gering, dass man durch zufällige Eingaben die entsprechend richtige Eingabe
@@ -22,15 +22,61 @@ In diesem Fall können Mockobjekte gebildet werden, welche es dann DART erlauben,
 Aufbauend darauf kann dann die Generierung des Testdrivers begonnen werden. Dieser enthält alle nötigen Schritte, welche
 das Programm testen und Fehler aufdecken \cite{godefroid2005dart}. Im letzten Schritt wird das Programm nun analysiert. Hierzu wird untersucht,
 wie sich das Programm verhält, wenn es zufällige Eingabewerte erhält \cite{godefroid2005dart}. Aufbauend darauf, werden
-nun automatisch neue Testeingabewerte generiert, sodass die Ausführung entlang aller Pfade
-gelenkt werden kann \cite{godefroid2005dart}.
+nun automatisch neue Testeingabewerte generiert, sodass die Ausführung entlang aller Pfade gelenkt werden
+kann\cite{godefroid2005dart}.
 
-\section{Symbolic Execution}
-Wie in den anderen Verfahren wird auch bei DART das zu testende Programm mit symbolischen Werten ausgeführt, um eine
-bessere Analyse der einzelnen Beschränkungen im Verlauf des Programms zu erhalten \cite{godefroid2005dart}. Die Ausführung
-eines Programms mithilfe von symbolischen Werten geschieht bei DART fortlaufend \cite{godefroid2005dart}.
+\section{Execution Model}
+Durch die Art und Weise wie das \textit{Execution Model} aufgebaut ist, unterstützt es DART derart, dass es das Programm
+sowohl konkret als auch symbolisch gleichzeitig ausführen kann. Mithilfe des Execution Models lassen sich neue Inputvektoren
+bilden und das zu testende Programm analysieren \cite{godefroid2005dart}. Bei der Ausführung mit symbolischen Werten
+werden somit verschiedene Informationen über die Pfadbeschränkungen gesammelt \cite{godefroid2005dart}. Diese symbolischen
+Werte müssen jedoch auch gespeichert und verarbeitet werden. Dies geschieht mithilfe von \textit{Symbolic Variables}.
+
+Symbolic Variables sind Platzhalter für echte Variablen innerhalb eines Programms. Für jeden Platzhalter erstellt DART
+automatisiert ein Memorymapping, welches Zuweisungen von Speicheradressen zu 32-Bit Words beinhaltet \cite{godefroid2005dart}.
+\begin{quote}
+    We identify symbolic variables by their addresses. Thus in an expression, m denotes either a memory address or the
+    symbolic variable identified by address m, depending on the context \cite{godefroid2005dart}.
+\end{quote}
+Somit kann man über die Adresse bestimmen, ob es sich hierbei um einen konkreten Wert oder einen symbolischen Wert
+handelt. Dies hilft später bei der Analyse des Programms und kann bei der Generierung von Daten nützlich sein. Mithilfe
+von Symbolic Variables kann man nun verschiedene Ausdrücke ableiten \cite{godefroid2005dart}. Diese Ausdrücke sollen
+DART dabei helfen, das zu testende Programm besser zu verstehen. Unter anderem wird bezüglich \(e\)  zwischen \(m\)
+(einfachen Speicheradressen), \(c\) (Konstanten), \(*(e, e')\) (Multiplikationen), \(\leq(e, e')\) (Vergleiche),
+\(\lnot e'\) (Negation), \(*e'\) (Pointer) und weiteren Ausdrücken unterschieden \cite{godefroid2005dart}. Somit werden
+durch die symbolischen Ausdrücke jegliche Ausdrücke abgebildet, welche es in der Zielsprache ebenfalls gibt.
+
+Ein weiterer wichtiger Punkt sind die \textit{Semantics of a Program}. Darunter fällt beispielsweise der State eines
+Programms. Godefroid beschreibt dies als \textit{Transition System} \cite{godefroid2005dart}.
+\begin{quote}
+    A transistion system where a state represents the values of all variables and a program counter and transitions
+    represent execution of a program statement resulting in change of state \cite{godefroid2005dart}.
+\end{quote}
+Jede Ausführung des Programms ist also ein Durchlauf dieses Systems. Diesen Durchlauf beschreib Godefroid als
+\textit{Path} \cite{godefroid2005dart}. Da DART die Ausführung des Programms sowohl mit konkreten als auch mit symbolischen
+Werten startet, müssen die \textit{Semantics of a Program} auf Speicherebene definiert werden \cite{godefroid2005dart}.
+Dies bedeutet, dass Statements ähnlich zu den Semantics gestaltet sind, diese jedoch lediglich simple Maschinenanweisungen
+sind.
+
+Damit DART Entscheidungen zu gewissen Statements treffen kann, werden zusätzliche Informationen über die Statements
+selber gespeichert. Wenn \(l\) eine Speicheradresse für ein Statement ist, welches nicht \textit{abort} oder \textit{halt}
+ist, dann ist \(l + 1\) ebenfalls eine Adresse von einem Statement \cite{godefroid2005dart}. Dies bedeutet, dass es ein
+\(l_0\) geben muss, welches die Adresse des Statements ist, welches den Start den Programms symbolisiert. Dies nennt
+Godefroid \textit{Statement Labels} \cite{godefroid2005dart}. Godefroid unterscheidet dabei zwei Arten von Statements:
+\begin{enumerate}
+    \item \textit{conditional statement \(c\)}
+    \item \textit{assignment statement \(a\)}
+\end{enumerate}
+
+
+Concrete Semantics
+
+Inputs
+
+Program Execution
 
 \section{Directed Search Algorithmus}
+.......................................Überarbeiten...............................................
 Der directed Search Algorithmus von DART versucht Informationen über die ausführbaren Pfade zu erhalten.
 Ähnlich wie bei der dynamischen Generierung von Testdaten aus wird das Programm zunächst mit
 zufälligen Werten gestartet \cite{godefroid2005dart, korel1990dynamic}. Für jede Ausführung wird nun ein neuer Inputvektor gebildert.
@@ -52,16 +98,7 @@ erweitert, dass sie ebenso symbolische Werte annehmen und verarbeiten können. Di
 als Ausgabe \cite{king1976symbolic}, welche wiederum von DART genutzt werden können, sodass daraus \textit{Constraints}
 abgeleitet werden können \cite{godefroid2005dart}.
 
-Damit das Programm nun konkret und symbolisch ausgeführt werden kann, wird für DART zunächst ein Memory Mapping erstellt,
-welches Zuweisungen von Speicheradressen zu 32-Bit Words beinhaltet \cite{godefroid2005dart}.
-\begin{quote}
-    We identify symbolic variables by their addresses. Thus in an expression, m denotes either a memory address or the
-    symbolic variable identified by address m, depending on the context \cite{godefroid2005dart}.
-\end{quote}
-Somit kann man über die Adresse bestimmen, ob es sich hierbei um einen konkreten Wert oder einen symbolischen Wert
-handelt. Dies hilft später bei der Analyse des Programms und kann bei der Generierung von Daten nützlich sein. Immer
-wenn die Analyse mithilfe von symbolischen Werten nicht weiter kommt, kann hier die Analyse mit konkreten Werten
-durchgeführt werden.
+
 Der DART Algorithmus arbeitet also folgendermaßen. Wie man in \ref{fig:testdriver-dart} erkennen kann, werden zunächst
 ein Stack und der Inputvektor zurückgesetzt, sodass dieser durch den Directed Search Algorithmus berechnet werden kann
 
@@ -70,3 +107,9 @@ ein Stack und der Inputvektor zurückgesetzt, sodass dieser durch den Directed Se
     \caption{Test Driver nach Godefroid}
     \label{fig:testdriver-dart}
 \end{figure}
+
+
+\section{Systematic Modular Automated Random Testing}
+Ein Problem der Generierung von Testdaten bei DART ist die langsame Ausführung für größere Programme, sodass Godefroid
+vorschlägt dies kompositionell durchzuführen. So stellt Godefroid einen neuen Algorithmus vor, welchen sie
+\textit{Systematic Modular Automated Random Testing} (SMART) nennen \cite{godefroid2007compositional}.
