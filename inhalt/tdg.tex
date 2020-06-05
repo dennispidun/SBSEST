@@ -1,0 +1,148 @@
+\chapter{Test Data Generation}
+\section{Static Test Data Generation}
+\section{Dynamic Test Data Generation}
+Beim dynamischen Ansatz von Korel wird das zu testende Programm zur Laufzeit analysiert und
+Eingabedaten generiert. Zunächst wird der Ansatz von Korel dadurch eingeschränkt, dass dieser
+sich auf das Node Problem konzentriert. Dieses wird definiert durch:
+\begin{quote}
+    Given node Y in a program. The goal is to find a program input x on which node Y will be executed \cite{korel1990dynamic}.
+\end{quote}
+
+Dieses Problem wurde in der Vergangenheit damit gelöst, dass dieses auf das Path Problem reduziert wurde \cite{korel1990dynamic}.
+Bei diesem Ansatz werden nacheinander alle möglichen Wege zu eine Node Y gewählt. Für jeden möglichen Weg werden dann
+entsprechend Eingabewerte generiert, die zu Node Y führen könnten. Dies benötigt jedoch das Lösen einer Reihe von
+Ungleichungen, die in \textit{if} -und \textit{repeat} Statements vorkommen \cite{ince1987automatic}. Häufig wird daher
+das Programm mit symbolischen Werten ausgeführt. Diese Ausführung ist jedoch in bestimmten Fällen sehr aufwendig \cite{ince1987automatic},
+weshalb hier andere Ansätze verfolgt werden sollten. Zudem kann es häufiger dazu kommen, dass einige Wege nicht möglich sind,
+und daher Ressourcen für die Berechnung möglicher Eingabewerte verschwendet werden \cite{korel1990dynamic}.
+
+Korel schlägt daher einen anderen Ansatz vor, bei dem die Selektierung des Weges wegfällt \cite{korel1990dynamic}.
+Hierzu wird das Programm mit einer zufälligen Eingabe ausgeführt. Bei jedem neuen Branch wird eine \textit{search procedure}
+angestoßen, welche entscheidet, ob es zur Ausführung des aktuellen Branches kommt \cite{korel1990dynamic}. Sofern die
+aktuelle Eingabe nicht zur gewünschten Node führt, wird ein neuer Eingabewert generiert \cite{korel1990dynamic}.
+
+//Vergleich zu \cite{korel1990automated}, was ist anders?
+
+Damit Informationen über gewisse Branches zur Verfügung stehen, müssen diese klassifiziert werden. Dazu unterteilt Korel
+diese in 4 Kategorien:
+
+\begin{enumerate}
+    \item A critical branch.
+    \item A required branch.
+    \item A semi-critical branch.
+    \item A non-essential branch.
+\end{enumerate}
+
+Somit braucht man die \textit{critical branches} nicht verwerten, da diese nicht zur gewünschten Node Y führen. Interessanter
+sind die \textit{required branches}, da diese näher an die gewünschte Node führen können \cite{korel1990dynamic}. Diese werden
+also nicht verworfen. Außerdem gibt es noch \textit{semi-critical branches}, welche Einfluss auf den Weg zur Node Y haben
+und in Zyklen enden können. Diese werden für den Suchalgorithmus verworfen. Die \textit{non-essential branches} werden
+nicht verworfen, da diese keinen Einfluss auf die Node Y haben können \cite{korel1990dynamic}.
+
+\subsection{Generierung von Eingabewerten}
+
+\subsection{Probleme bei der dynamischen Testdatengenerierung}
+
+......................................................................
+DART attempts to cover all executable program paths \cite{godefroid2005dart}
+Dynamic Approach: geht nur in eine Richtung, Fokus liegt auf das Finden zu Node Y
+dynamic test generation does not deal with functions calls, unknown code segments (such as library functions),
+how to check at run-time whether predictions about new test inputs are matched in the next run, and does
+not discuss completeness. \cite{godefroid2005dart}
+.......................................................................
+
+
+\subsection{Directed Automated Random Testing}
+Das \textit{Directed Automated Random Testing} (DART) ist ein Werkzeug, welches in der Unit Testing Phase die Software-
+Entwickler*innen unterstützen kann. Besonders für größere Programme wird häufig eine Technik angewendet, bei der man
+zufällige Eingabewerte für das zu testende Programm erzeugt. In einigen Fällen erreicht man dadurch, dass man entsprechende
+Fehler im Quellcode finden kann. In anderen Fällen durchläuft man dadurch jedoch nicht die gewünschten Programmpfade,
+wodurch sich vermeintliche Fehler nicht aufspüren lassen. An diesem Punkt kann DART unterstützend wirken, da es mithilfe
+des Suchalgorithmus Eingabevektoren erzeugen kann, welche jeden Programmpfad ablaufen lassen können \cite{godefroid2005dart}.
+Außerdem kann DART Standardfehler erkennen. Unteranderem erkennt es Programmabstürze, Assertion Violations und Non-Terminations
+\cite{godefroid2005dart}. Da sich durch Randomtesting, keine hohe Codecoverage erhalten lässt wird der Ansatz derart erweitert,
+dass dieser zielgerichtet versucht gewisse Eingabewerte schnell zu erzeugen. Wenn beispielsweise eine Bedingung lautet:
+``if (x == 10) then ...'', ist die Chance gering, dass man durch zufällige Eingaben die entsprechend richtige Eingabe
+findet \cite{godefroid2005dart}. Um dies zu verhindern, verbindet DART \textit{automated interface extraction} mit
+\textit{dynamic test generation} \cite{godefroid2005dart}. Dies sorgt dafür, dass die Wahrscheinlichkeit, dass der
+\textit{then-Bereich} der Bedingung ausgeführt wird, bei 0.5 liegt \cite{godefroid2005dart}. Somit ist die Zeit, die man
+für überflüssige Eingabewerte aufbringt deutlich geringer.
+
+Um automatisiert Testdaten zu erzeugen, sind drei Techniken notwendig: (1) \textit{Auslesen der Interfaces},
+(2) \textit{Generierung der Testdriver} und (3) \textit{Analyse des Programms} \cite{godefroid2005dart}. Damit DART
+entsprechend Eingabevektoren bilden kann, wird das Programm statisch analysiert. Bei diesem Schritt werden alle externen
+Interfaces ausgelesen und analysiert. Dies geschieht, sodass die externe Umgebung durch DART gesteuert werden kann.
+In diesem Fall können Mockobjekte gebildet werden, welche es dann DART erlauben, die Ausführung genauer zu steuern.
+Aufbauend darauf kann dann die Generierung des Testdrivers begonnen werden. Dieser enthält alle nötigen Schritte, welche
+das Programm testen und Fehler aufdecken \cite{godefroid2005dart}. Im letzten Schritt wird das Programm nun analysiert. Hierzu wird untersucht,
+wie sich das Programm verhält, wenn es zufällige Eingabewerte erhält \cite{godefroid2005dart}. Aufbauend darauf, werden
+nun automatisch neue Testeingabewerte generiert, sodass die Ausführung entlang aller Pfade
+gelenkt werden kann \cite{godefroid2005dart}.
+
+\subsubsection{Symbolic Execution}
+Zeitgleich zur Ausführung mit konkreten Werten, wird das zu testende Programm mithilfe von symbolischen Werten ausgeführt.
+Um dies zu demonstrieren, stellt man sich eine Funktion f(x) und eine Funktion h(x, y) vor. Zur Vereinfachung ist die
+Größe der verwendeten Funktionen gering. Zu betrachten sei folgender Code-Ausschnitt in Listing \ref{lst:function-fh}.
+
+\begin{minipage}{\linewidth}
+    \lstset{language=c, basicstyle=\footnotesize, showstringspaces=false,tabsize=2}
+    \lstinputlisting[label={lst:function-fh},caption={Demonstrationsbeispiel von DART nach Godefroid}]{listings/function-fh.code}
+\end{minipage}
+
+Die Ausführung eines Programms mithilfe von symbolischen Werten geschieht bei DART fortlaufend. Hierbei werden für jede
+Verschachtelung Equivalente Gleichungen geschaffen, welche statt Programmvariablen symbolische Werte beinhalten. Somit
+folgt \(x \mapsto x_0\) und \(y \mapsto y_0\). Mithilfe dieser symbolischen Werten lassen sich also symbolische
+Formeln ableiten, welche aus der Verfolgung der Unterprogramme entstehen \cite{godefroid2005dart}. Hierzu werden fortlaufend
+alle Verschachtelungen untersucht und wo es möglich ist nachverfolgt. Beispielsweise sieht man in Listing \ref{lst:function-fh}
+in Zeile 3 die Bedingung \(x \neq y\). Aus der Analyse zur symbolischen Ausführung folgt daher \(x \neq y \mapsto x_0 \neq y_0\)
+und für Zeile 4 \(f(x) = x+10 \mapsto 2*x_0 = x_0+10\). Die symbolischen Variablen \(x_0\) und \(y_0\) enthalten hier die
+Speicheradressen für \(x\) und \(y\). Besondere Beachtung erhält hier der Ausdruck \(2*x_0\) da dieser über
+\textit{dynamic tracing} aufgelöst wurde \cite{godefroid2005dart}.
+
+\subsubsection{Directed Search Algorithmus}
+Der directed Search Algorithmus von DART versucht Informationen über die ausführbaren Pfade zu erhalten.
+Ähnlich wie bei der dynamischen Generierung von Testdaten aus \cite{korel1990dynamic} wird das Programm zunächst mit
+zufälligen Werten gestartet \cite{godefroid2005dart}. Für jede Ausführung wird nun ein neuer Inputvektor gebildert.
+Dieser Inputvektor kann dann für die nächsten Iterationen genutzt werden. Zeitgleich werden alle Pfadbeschränkungen notiert,
+welche für den zufälligen Inputvektor nicht positiv als Ergebnis haben \cite{godefroid2005dart}. Aus dem vorher genannten
+Beispiel aus Listing \ref{lst:function-fh}
+
+Anschließend wird für die nächste Ausführung
+ein neuer Input Vektor berechnet. Dieser Input Vektor basiert dabei auf Werten aus den vorherigen Berechnungen, um die
+Zweigbedingungen zu lösen \cite{godefroid2005dart}.
+Dies geschieht, damit das Programm zu einer entsprechenden Node gelenkt werden kann, was ähnlich zum Suchalgorithmus
+von Korel ist \cite{korel1990dynamic}. Dieser Vorgang wird nun so oft wiederholt, bis alle möglichen Pfade ausgeführt
+wurden \cite{godefroid2005dart}.
+
+Hierbei wird nicht nur die konkrete Ausführung des Programms selbst durchgeführt, sondern auch die Ausführung des Programms
+mit \textit{symbolischen Werten}. King sagt, dass es sich bei der Ausführung mithilfe von symbolischen Werten um eine
+Erweiterung der normalen Ausführung handelt \cite{king1976symbolic}. Somit werden für eine Sprache die Operatoren derart
+erweitert, dass sie ebenso symbolische Werte annehmen und verarbeiten können. Diese produzieren dann \textit{symbolic formulas}
+als Ausgabe \cite{king1976symbolic}, welche wiederum von DART genutzt werden können, sodass daraus \textit{Constraints}
+abgeleitet werden können \cite{godefroid2005dart}.
+
+Damit das Programm nun konkret und symbolisch ausgeführt werden kann, wird für DART zunächst ein Memory Mapping erstellt,
+welches Zuweisungen von Speicheradressen zu 32-Bit Words beinhaltet \cite{godefroid2005dart}.
+\begin{quote}
+    We identify symbolic variables by their addresses. Thus in an expression, m denotes either a memory address or the
+    symbolic variable identified by address m, depending on the context \cite{godefroid2005dart}.
+\end{quote}
+Somit kann man über die Adresse bestimmen, ob es sich hierbei um einen konkreten Wert oder einen symbolischen Wert
+handelt. Dies hilft später bei der Analyse des Programms und kann bei der Generierung von Daten nützlich sein. Immer
+wenn die Analyse mithilfe von symbolischen Werten nicht weiter kommt, kann hier die Analyse mit konkreten Werten
+durchgeführt werden.
+Der DART Algorithmus arbeitet also folgendermaßen. Wie man in \ref{fig:testdriver-dart} erkennen kann, werden zunächst
+ein Stack und der Inputvektor zurückgesetzt, sodass dieser durch den Directed Search Algorithmus berechnet werden kann
+
+\begin{figure}[h!]
+    \includegraphics[scale=0.2]{Bilder/dart/testdriver.png}
+    \caption{Test Driver nach Godefroid}
+    \label{fig:testdriver-dart}
+\end{figure}
+
+\subsection{Generating Floating-Point Test Data}
+\section{Compositional Dynamic Test Generation}
+Ein Problem der Generierung von Testdaten ist die langsame Ausführung für größere Programme, sodass Godefroid vorschlägt
+dies kompositionell durchzuführen. So stellt Godefroid einen neuen Algorithmus vor, welchen sie \textit{Systematic Modular
+Automated Random Testing} (SMART) nennen \cite{godefroid2007compositional}.
+\section{Test Data Generation for Distributed Software}
