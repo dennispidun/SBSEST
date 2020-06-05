@@ -1,0 +1,59 @@
+\chapter{Dynamic Approach}
+Beim dynamischen Ansatz von Korel wird das zu testende Programm zur Laufzeit analysiert und
+Eingabedaten generiert. Zunächst wird der Ansatz von Korel dadurch eingeschränkt, dass dieser
+sich auf das Node Problem konzentriert. Dieses wird definiert durch:
+\begin{quote}
+    Given node Y in a program. The goal is to find a program input x on which node Y will be executed \cite{korel1990dynamic}.
+\end{quote}
+
+Dieses Problem wurde in der Vergangenheit damit gelöst, dass dieses auf das Path Problem reduziert wurde \cite{korel1990dynamic}.
+Bei diesem Ansatz werden nacheinander alle möglichen Wege zu eine Node Y gewählt. Für jeden möglichen Weg werden dann
+entsprechend Eingabewerte generiert, die zu Node Y führen könnten. Dies benötigt jedoch das Lösen einer Reihe von
+Ungleichungen, die in \textit{if} -und \textit{repeat} Statements vorkommen \cite{ince1987automatic}. Häufig wird daher
+das Programm mit symbolischen Werten ausgeführt. Diese Ausführung ist jedoch in bestimmten Fällen sehr aufwendig \cite{ince1987automatic},
+weshalb hier andere Ansätze verfolgt werden sollten. Zudem kann es häufiger dazu kommen, dass einige Wege nicht möglich sind,
+und daher Ressourcen für die Berechnung möglicher Eingabewerte verschwendet werden \cite{korel1990dynamic}.
+
+Korel schlägt daher einen anderen Ansatz vor, bei dem die Selektierung des Weges wegfällt \cite{korel1990dynamic}.
+Hierzu wird das Programm mit einer zufälligen Eingabe ausgeführt. Bei jedem neuen Branch wird eine \textit{search procedure}
+angestoßen, welche entscheidet, ob es zur Ausführung des aktuellen Branches kommt \cite{korel1990dynamic}. Sofern die
+aktuelle Eingabe nicht zur gewünschten Node führt, wird ein neuer Eingabewert generiert \cite{korel1990dynamic}.
+
+//Vergleich zu \cite{korel1990automated}, was ist anders?
+
+Damit Informationen über gewisse Branches zur Verfügung stehen, müssen diese klassifiziert werden. Dazu unterteilt Korel
+diese in 4 Kategorien:
+
+\begin{enumerate}
+    \item A critical branch.
+    \item A required branch.
+    \item A semi-critical branch.
+    \item A non-essential branch.
+\end{enumerate}
+
+Somit braucht man die \textit{critical branches} nicht verwerten, da diese nicht zur gewünschten Node Y führen. Interessanter
+sind die \textit{required branches}, da diese näher an die gewünschte Node führen können \cite{korel1990dynamic}. Diese werden
+also nicht verworfen. Außerdem gibt es noch \textit{semi-critical branches}, welche Einfluss auf den Weg zur Node Y haben
+und in Zyklen enden können. Diese werden für den Suchalgorithmus verworfen. Die \textit{non-essential branches} werden
+nicht verworfen, da diese keinen Einfluss auf die Node Y haben können \cite{korel1990dynamic}.
+
+\section{Generierung von Eingabewerten}
+
+\section{Probleme bei der dynamischen Testdatengenerierung}
+
+......................................................................
+DART attempts to cover all executable program paths \cite{godefroid2005dart}
+
+Dynamic Approach: geht nur in eine Richtung, Fokus liegt auf das Finden zu Node Y
+
+dynamic test generation does not deal with functions calls, unknown code segments (such as library functions),
+
+how to check at run-time whether predictions about new test inputs are matched in the next run, and does
+not discuss completeness. \cite{godefroid2005dart}
+.......................................................................
+
+\section{Compositional Dynamic Test Generation}
+Ein Problem der Generierung von Testdaten ist die langsame Ausführung für größere Programme, sodass Godefroid vorschlägt
+dies kompositionell durchzuführen. So stellt Godefroid einen neuen Algorithmus vor, welchen sie \textit{Systematic Modular
+Automated Random Testing} (SMART) nennen \cite{godefroid2007compositional}.
+\section{Test Data Generation for Distributed Software}

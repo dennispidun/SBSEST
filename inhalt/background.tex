@@ -1,0 +1,20 @@
+\chapter{Background Information}
+\section{Symbolic Execution}
+Zeitgleich zur Ausführung mit konkreten Werten, wird das zu testende Programm mithilfe von symbolischen Werten ausgeführt.
+Um dies zu demonstrieren, stellt man sich eine Funktion f(x) und eine Funktion h(x, y) vor. Zur Vereinfachung ist die
+Größe der verwendeten Funktionen gering. Zu betrachten sei folgender Code-Ausschnitt in Listing \ref{lst:function-fh}.
+
+\begin{minipage}{\linewidth}
+    \lstset{language=c, basicstyle=\footnotesize, showstringspaces=false,tabsize=2}
+    \lstinputlisting[label={lst:function-fh},caption={Demonstrationsbeispiel von DART nach Godefroid}]{listings/function-fh.code}
+\end{minipage}
+
+Die Ausführung eines Programms mithilfe von symbolischen Werten geschieht bei DART fortlaufend. Hierbei werden für jede
+Verschachtelung Equivalente Gleichungen geschaffen, welche statt Programmvariablen symbolische Werte beinhalten. Somit
+folgt \(x \mapsto x_0\) und \(y \mapsto y_0\). Mithilfe dieser symbolischen Werten lassen sich also symbolische
+Formeln ableiten, welche aus der Verfolgung der Unterprogramme entstehen \cite{godefroid2005dart}. Hierzu werden fortlaufend
+alle Verschachtelungen untersucht und wo es möglich ist nachverfolgt. Beispielsweise sieht man in Listing \ref{lst:function-fh}
+in Zeile 3 die Bedingung \(x \neq y\). Aus der Analyse zur symbolischen Ausführung folgt daher \(x \neq y \mapsto x_0 \neq y_0\)
+und für Zeile 4 \(f(x) = x+10 \mapsto 2*x_0 = x_0+10\). Die symbolischen Variablen \(x_0\) und \(y_0\) enthalten hier die
+Speicheradressen für \(x\) und \(y\). Besondere Beachtung erhält hier der Ausdruck \(2*x_0\) da dieser über
+\textit{dynamic tracing} aufgelöst wurde \cite{godefroid2005dart}.

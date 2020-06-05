@@ -1,0 +1,69 @@
+\chapter{Directed Automated Random Testing}
+Das \textit{Directed Automated Random Testing} (DART) ist ein Werkzeug, welches in der Unit Testing Phase die Software-
+Entwickler*innen unterstützen kann. Besonders für größere Programme wird häufig eine Technik angewendet, bei der man
+zufällige Eingabewerte für das zu testende Programm erzeugt. In einigen Fällen erreicht man dadurch, dass man entsprechende
+Fehler im Quellcode finden kann. In anderen Fällen durchläuft man dadurch jedoch nicht die gewünschten Programmpfade,
+wodurch sich vermeintliche Fehler nicht aufspüren lassen. An diesem Punkt kann DART unterstützend wirken, da es mithilfe
+des Suchalgorithmus Eingabevektoren erzeugen kann, welche jeden Programmpfad ablaufen lassen können \cite{godefroid2005dart}.
+Außerdem kann DART Standardfehler erkennen. Unteranderem erkennt es Programmabstürze, Assertion Violations und Non-Terminations
+\cite{godefroid2005dart}. Da sich durch Randomtesting, keine hohe Codecoverage erhalten lässt wird der Ansatz derart erweitert,
+dass dieser zielgerichtet versucht gewisse Eingabewerte schnell zu erzeugen. Wenn beispielsweise eine Bedingung lautet:
+``if (x == 10) then ...'', ist die Chance gering, dass man durch zufällige Eingaben die entsprechend richtige Eingabe
+findet \cite{godefroid2005dart}. Um dies zu verhindern, verbindet DART \textit{automated interface extraction} mit
+\textit{dynamic test generation} \cite{godefroid2005dart}. Dies sorgt dafür, dass die Wahrscheinlichkeit, dass der
+\textit{then-Bereich} der Bedingung ausgeführt wird, bei 0.5 liegt \cite{godefroid2005dart}. Somit ist die Zeit, die man
+für überflüssige Eingabewerte aufbringt deutlich geringer.
+
+Um automatisiert Testdaten zu erzeugen, sind drei Techniken notwendig: (1) \textit{Auslesen der Interfaces},
+(2) \textit{Generierung der Testdriver} und (3) \textit{Analyse des Programms} \cite{godefroid2005dart}. Damit DART
+entsprechend Eingabevektoren bilden kann, wird das Programm statisch analysiert. Bei diesem Schritt werden alle externen
+Interfaces ausgelesen und analysiert. Dies geschieht, sodass die externe Umgebung durch DART gesteuert werden kann.
+In diesem Fall können Mockobjekte gebildet werden, welche es dann DART erlauben, die Ausführung genauer zu steuern.
+Aufbauend darauf kann dann die Generierung des Testdrivers begonnen werden. Dieser enthält alle nötigen Schritte, welche
+das Programm testen und Fehler aufdecken \cite{godefroid2005dart}. Im letzten Schritt wird das Programm nun analysiert. Hierzu wird untersucht,
+wie sich das Programm verhält, wenn es zufällige Eingabewerte erhält \cite{godefroid2005dart}. Aufbauend darauf, werden
+nun automatisch neue Testeingabewerte generiert, sodass die Ausführung entlang aller Pfade
+gelenkt werden kann \cite{godefroid2005dart}.
+
+
+
+\section{Directed Search Algorithmus}
+Der directed Search Algorithmus von DART versucht Informationen über die ausführbaren Pfade zu erhalten.
+Ähnlich wie bei der dynamischen Generierung von Testdaten aus wird das Programm zunächst mit
+zufälligen Werten gestartet \cite{godefroid2005dart, korel1990dynamic}. Für jede Ausführung wird nun ein neuer Inputvektor gebildert.
+Dieser Inputvektor kann dann für die nächsten Iterationen genutzt werden. Zeitgleich werden alle Pfadbeschränkungen notiert,
+welche für den zufälligen Inputvektor nicht positiv als Ergebnis haben \cite{godefroid2005dart}. Aus dem vorher genannten
+Beispiel aus Listing \ref{lst:function-fh}
+
+Anschließend wird für die nächste Ausführung
+ein neuer Input Vektor berechnet. Dieser Input Vektor basiert dabei auf Werten aus den vorherigen Berechnungen, um die
+Zweigbedingungen zu lösen \cite{godefroid2005dart}.
+Dies geschieht, damit das Programm zu einer entsprechenden Node gelenkt werden kann, was ähnlich zum Suchalgorithmus
+von Korel ist \cite{korel1990dynamic}. Dieser Vorgang wird nun so oft wiederholt, bis alle möglichen Pfade ausgeführt
+wurden \cite{godefroid2005dart}.
+
+Hierbei wird nicht nur die konkrete Ausführung des Programms selbst durchgeführt, sondern auch die Ausführung des Programms
+mit \textit{symbolischen Werten}. King sagt, dass es sich bei der Ausführung mithilfe von symbolischen Werten um eine
+Erweiterung der normalen Ausführung handelt \cite{king1976symbolic}. Somit werden für eine Sprache die Operatoren derart
+erweitert, dass sie ebenso symbolische Werte annehmen und verarbeiten können. Diese produzieren dann \textit{symbolic formulas}
+als Ausgabe \cite{king1976symbolic}, welche wiederum von DART genutzt werden können, sodass daraus \textit{Constraints}
+abgeleitet werden können \cite{godefroid2005dart}.
+
+Damit das Programm nun konkret und symbolisch ausgeführt werden kann, wird für DART zunächst ein Memory Mapping erstellt,
+welches Zuweisungen von Speicheradressen zu 32-Bit Words beinhaltet \cite{godefroid2005dart}.
+\begin{quote}
+    We identify symbolic variables by their addresses. Thus in an expression, m denotes either a memory address or the
+    symbolic variable identified by address m, depending on the context \cite{godefroid2005dart}.
+\end{quote}
+Somit kann man über die Adresse bestimmen, ob es sich hierbei um einen konkreten Wert oder einen symbolischen Wert
+handelt. Dies hilft später bei der Analyse des Programms und kann bei der Generierung von Daten nützlich sein. Immer
+wenn die Analyse mithilfe von symbolischen Werten nicht weiter kommt, kann hier die Analyse mit konkreten Werten
+durchgeführt werden.
+Der DART Algorithmus arbeitet also folgendermaßen. Wie man in \ref{fig:testdriver-dart} erkennen kann, werden zunächst
+ein Stack und der Inputvektor zurückgesetzt, sodass dieser durch den Directed Search Algorithmus berechnet werden kann
+
+\begin{figure}[h!]
+    \includegraphics[scale=0.2]{Bilder/dart/testdriver.png}
+    \caption{Test Driver nach Godefroid}
+    \label{fig:testdriver-dart}
+\end{figure}
