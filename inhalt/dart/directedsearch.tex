@@ -1,0 +1,31 @@
+\section{Directed Search Algorithmus}
+Der directed Search Algorithmus unterstützt DART bei der Findung von Eingabevektoren. Ähnlich wie bei der dynamischen
+Generierung von Testdaten wird das Programm zunächst mit zufälligen Werten gestartet \cite{godefroid2005dart, korel1990dynamic}.
+Für jede Ausführung wird nun ein neuer Inputvektor gebildert. Wie bereits erläutert, ist der Inputvektor entscheidend
+für die Reihenfolge der Statements die ausgeführt werden. Dieser Inputvektor kann dann für die nächsten Iterationen genutzt werden. Zeitgleich werden alle Pfadbeschränkungen notiert,
+welche für den zufälligen Inputvektor nicht positiv als Ergebnis haben \cite{godefroid2005dart}. Aus dem vorher genannten
+Beispiel aus Listing \ref{lst:function-fh}
+
+Anschließend wird für die nächste Ausführung
+ein neuer Input Vektor berechnet. Dieser Input Vektor basiert dabei auf Werten aus den vorherigen Berechnungen, um die
+Zweigbedingungen zu lösen \cite{godefroid2005dart}.
+Dies geschieht, damit das Programm zu einer entsprechenden Node gelenkt werden kann, was ähnlich zum Suchalgorithmus
+von Korel ist \cite{korel1990dynamic}. Dieser Vorgang wird nun so oft wiederholt, bis alle möglichen Pfade ausgeführt
+wurden \cite{godefroid2005dart}.
+
+Hierbei wird nicht nur die konkrete Ausführung des Programms selbst durchgeführt, sondern auch die Ausführung des Programms
+mit \textit{symbolischen Werten}. King sagt, dass es sich bei der Ausführung mithilfe von symbolischen Werten um eine
+Erweiterung der normalen Ausführung handelt \cite{king1976symbolic}. Somit werden für eine Sprache die Operatoren derart
+erweitert, dass sie ebenso symbolische Werte annehmen und verarbeiten können. Diese produzieren dann \textit{symbolic formulas}
+als Ausgabe \cite{king1976symbolic}, welche wiederum von DART genutzt werden können, sodass daraus \textit{Constraints}
+abgeleitet werden können \cite{godefroid2005dart}.
+
+
+Der DART Algorithmus arbeitet also folgendermaßen. Wie man in \ref{fig:testdriver-dart} erkennen kann, werden zunächst
+ein Stack und der Inputvektor zurückgesetzt, sodass dieser durch den Directed Search Algorithmus berechnet werden kann
+
+\begin{figure}[h!]
+    \includegraphics[scale=0.2]{Bilder/dart/testdriver.png}
+    \caption{Test Driver nach Godefroid}
+    \label{fig:testdriver-dart}
+\end{figure}

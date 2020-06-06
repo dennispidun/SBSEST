@@ -1,0 +1,62 @@
+\section{Execution Model}
+Durch die Art und Weise wie das \textit{Execution Model} aufgebaut ist, unterstützt es DART derart, dass es das Programm
+sowohl konkret als auch symbolisch gleichzeitig ausführen kann. Mithilfe des Execution Models lassen sich neue Inputvektoren
+bilden und das zu testende Programm analysieren \cite{godefroid2005dart}. Bei der Ausführung mit symbolischen Werten
+werden somit verschiedene Informationen über die Pfadbeschränkungen gesammelt \cite{godefroid2005dart}. Diese symbolischen
+Werte müssen jedoch auch gespeichert und verarbeitet werden. Dies geschieht mithilfe von \textit{Symbolic Variables}.
+
+Symbolic Variables sind Platzhalter für echte Variablen innerhalb eines Programms. Für jeden Platzhalter erstellt DART
+automatisiert ein Memorymapping \(M\), welches Zuweisungen von Speicheradressen zu 32-Bit Words beinhaltet \cite{godefroid2005dart}.
+\begin{quote}
+    We identify symbolic variables by their addresses. Thus in an expression, m denotes either a memory address or the
+    symbolic variable identified by address m, depending on the context \cite{godefroid2005dart}.
+\end{quote}
+Somit kann man über die Adresse bestimmen, ob es sich hierbei um einen konkreten Wert oder einen symbolischen Wert
+handelt. Dies hilft später bei der Analyse des Programms und kann bei der Generierung von Daten nützlich sein. Mithilfe
+von Symbolic Variables kann man nun verschiedene Ausdrücke ableiten \cite{godefroid2005dart}. Diese Ausdrücke sollen
+DART dabei helfen, das zu testende Programm besser zu verstehen. Unter anderem wird bezüglich \(e\)  zwischen \(m\)
+(einfachen Speicheradressen), \(c\) (Konstanten), \(*(e, e')\) (Multiplikationen), \(\leq(e, e')\) (Vergleiche),
+\(\lnot e'\) (Negation), \(*e'\) (Pointer) und weiteren Ausdrücken unterschieden \cite{godefroid2005dart}. Somit werden
+durch die symbolischen Ausdrücke jegliche Ausdrücke abgebildet, welche es in der Zielsprache ebenfalls gibt.
+
+Ein weiterer wichtiger Punkt sind die \textit{Semantics of a Program}. Darunter fällt beispielsweise der State eines
+Programms. Godefroid beschreibt dies als \textit{Transition System} \cite{godefroid2005dart}.
+\begin{quote}
+    A transistion system where a state represents the values of all variables and a program counter and transitions
+    represent execution of a program statement resulting in change of state \cite{godefroid2005dart}.
+\end{quote}
+Jede Ausführung des Programms ist also ein Durchlauf durch dieses System. Diesen Durchlauf beschreib Godefroid als
+\textit{Path} \cite{godefroid2005dart}. Da DART die Ausführung des Programms sowohl mit konkreten als auch mit symbolischen
+Werten startet, müssen die \textit{Semantics of a Program} auf Speicherebene definiert werden \cite{godefroid2005dart}.
+Dies bedeutet, dass Statements ähnlich zu den Semantics gestaltet sind, diese jedoch lediglich simple Maschinenanweisungen
+sind.
+
+Damit DART Entscheidungen zu gewissen Statements treffen kann, werden zusätzliche Informationen über die Statements
+selber gespeichert. Wenn \(l\) eine Speicheradresse für ein Statement ist, welches nicht \textit{abort} oder \textit{halt}
+ist, dann ist \(l + 1\) ebenfalls eine Adresse von einem Statement \cite{godefroid2005dart}. Dies bedeutet, dass es ein
+\(l_0\) geben muss, welches die Adresse des Statements ist, welches den Start den Programms symbolisiert. Dies nennt
+Godefroid \textit{Statement Labels} \cite{godefroid2005dart}. Zur Vereinfachung unterscheidet Godefroid dabei drei Arten
+von Statements:
+\begin{enumerate}
+    \item conditional statement \(c\)
+    \item assignment statement \(a\)
+    \item \textit{abort} und \textit{halt}
+\end{enumerate}
+Somit gibt es Möglichkeiten zur Verzweigung, Zuweisung von Werten und das Beenden des Programms. Letzteres kann durch
+einen Fehler verursacht werden oder durch ein normales Ende des Programms. Außerdem wird eine weitere spezielle Funktion
+definiert: \textit{statement - at(l, M)} \cite{godefroid2005dart}. Diese Funktion gibt also das nächste Statement an.
+
+Um die echten Werte, welche an einer bestimmte Stelle im Speicher enthalten sind zu erhalten, definiert Godefroid
+\textit{Concrete Semantics} \cite{godefroid2005dart}. Es wird hier eine Funktion \textit{evaluate - concrete(e, M)}
+definiert. Diese Funktion evaluiert den Ausdruck \(e\) im Kontext von \(M\) und gibt anschließend ein 32-Bit Wert für
+\(e\) zurück \cite{godefroid2005dart}.
+
+Wie bereits gesagt, geht man davon aus, dass das Programm nur aus \textit{Conditional Statements}, \textit{Assignement Statements}
+und \textit{Abort} oder \textit{Halt} besteht. Somit ist die \textit{Ausführung} des Programms eine definierte Abfolge
+von genau diesen Statements. Zur weiteren Vereinfachung geht Godefroid davon aus, dass es sich bei der Ausführung
+um eine alternierende Abfolge von \textit{Conditional Statements} und \textit{Assignement Statements} handelt, welche
+immer mit einem \textit{Abort} oder \textit{Halt} endet \cite{godefroid2005dart}. Alternativ dazu könnte man sich
+die Ausführung als Baumstruktur vorstellen. Demnach haben \textit{Assignement Nodes} eine Folgenode und
+\textit{Conditional Statements} demnach eine oder zwei Folgenodes. Die Endnodes, beziehungsweise Leaves, wären demnach
+dann entweder \textit{Abort} oder \textit{Halt} \cite{godefroid2005dart}. Stellt man nun dem Programm \(P\) verschiedene
+Eingabevektoren zur Verfügung, führt dies zu einer Sequenz von Ausführungen entlang eines Pfades.
