@@ -1,7 +1,7 @@
 \chapter{Dynamic Approach}
-Beim dynamischen Ansatz von Korel wird das zu testende Programm zur Laufzeit analysiert und
-Eingabedaten generiert. Zunächst wird der Ansatz von Korel dadurch eingeschränkt, dass dieser
-sich auf das Node Problem konzentriert. Dieses wird definiert durch:
+Beim dynamischen Ansatz von Korel wird das zu testende Programm zur Laufzeit analysiert und Eingabedaten generiert.
+Zunächst wird der Ansatz von Korel dadurch eingeschränkt, dass dieser  sich auf das Node Problem konzentriert.
+Dieses wird definiert durch:
 \begin{quote}
     Given node Y in a program. The goal is to find a program input x on which node Y will be executed \cite{korel1990dynamic}.
 \end{quote}
@@ -37,7 +37,35 @@ also nicht verworfen. Außerdem gibt es noch \textit{semi-critical branches}, wel
 und in Zyklen enden können. Diese werden für den Suchalgorithmus verworfen. Die \textit{non-essential branches} werden
 nicht verworfen, da diese keinen Einfluss auf die Node Y haben können \cite{korel1990dynamic}.
 
-\section{Generierung von Eingabewerten}
+\section{Generierung von neuen Eingabewerten}
+Mit dem Lösen von sogenannten Subgoals beschreibt Korel die Generierung von Eingabewerten für das zu testende Programm.
+Auf dem Weg von einer Start-Node zu einer Node Y, durchläuft das Programm einen entsprechenden Pfad. Sollte das Programm
+nun einen Weg einschlagen, wodurch es die Ziel-Node Y nicht mehr erreichen kann, wird versucht ein neuer Eingabewert
+zu generieren. Dieser neue Eingabewert soll im Idealfall an dieser Beschränkung vorbeikommen, sodass es zur gewünschten
+Node Y gelangt \cite{korel1990dynamic}. Korel beschreibt dies als \textit{Solving Subgoals}. Hierbei wird versucht mithilfe
+von neuen zufälligen Eingabewerten die Beschränkung aufzulösen.
+
+Um dies zu vereinfachen, geht Korel davon aus, dass es sich hierbei um einfache Gleichungen beziehungsweise Ungleichungen
+handelt \cite{korel1990dynamic}. Somit ist \(E_1\) \fett{op} \(E_2\) die Form der Ausdrücke, wobei \(E_1\) und \(E_2\)
+simple arithmetische Ausdrücke sind und \fett{op} ein Vergleichsoperator ist \cite{korel1990dynamic}. Diese Ausdrücke
+können nach Tabelle \ref{tab:bspTabelle} in folgedene Formen umgewandelt werden: \(F\) \fett{rel} 0.
+
+\begin{table}[h]
+    \centering
+    \caption{Predicate zu Function Relation nach Korel \cite{korel1990dynamic}}
+    \label{tab:bspTabelle}
+    \begin{tabular}{|c|c|c|} \hline
+    Branch Predicate & Branch Function \(F\) & \fett{rel} \\ \hline
+    $E_1 > E_2$ & $E_2 - E_1$ & $<$ \\ \hline
+    $E_1 \geq E_2$ & $E_2 - E_1$ & $\leq$ \\ \hline
+    $E_1 < E_2$ & $E_1 - E_2$ & $<$ \\ \hline
+    $E_1 \leq E_2$ & $E_1 - E_2$ & $\leq$ \\ \hline
+    $E_1 = E_2$ & abs($E_1 - E_2$) & $=$ \\ \hline
+    $E_1 \neq E_2$ & abs($E_1 - E_2$) & $\leq$ \\ \hline
+    \end{tabular}
+\end{table}
+
+
 
 \section{Probleme}
 
