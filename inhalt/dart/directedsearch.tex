@@ -1,31 +1,32 @@
 \section{Directed Search Algorithmus}
 Der directed Search Algorithmus unterstützt DART bei der Findung von Eingabevektoren. Ähnlich wie bei der dynamischen
 Generierung von Testdaten wird das Programm zunächst mit zufälligen Werten gestartet \cite{godefroid2005dart, korel1990dynamic}.
-Für jede Ausführung wird nun ein neuer Inputvektor gebildert. Wie bereits erläutert, ist der Inputvektor entscheidend
-für die Reihenfolge der Statements die ausgeführt werden. Dieser Inputvektor kann dann für die nächsten Iterationen genutzt werden. Zeitgleich werden alle Pfadbeschränkungen notiert,
-welche für den zufälligen Inputvektor nicht positiv als Ergebnis haben \cite{godefroid2005dart}. Aus dem vorher genannten
-Beispiel aus Listing \ref{lst:function-fh}
+DART zielt hierbei darauf ab, Unterstützung für die zufällige Generierung von Testdaten zu bieten. Somit soll mithilfe
+des Suchprozess die Generierung in die richtige Richtung gelenkt werden können. Dabei sollen die verschiedenen Eingabevektoren
+ein möglichst großes Spektrum an verschiedenen Pfaden aufweisen können. Für jede Ausführung wird nun ein neuer Inputvektor
+gebildert. Wie bereits erläutert, ist der Inputvektor entscheidend für die Reihenfolge der Statements die ausgeführt werden.
+Dieser Inputvektor kann dann für die nächsten Iterationen genutzt werden.
 
-Anschließend wird für die nächste Ausführung
-ein neuer Input Vektor berechnet. Dieser Input Vektor basiert dabei auf Werten aus den vorherigen Berechnungen, um die
-Zweigbedingungen zu lösen \cite{godefroid2005dart}.
-Dies geschieht, damit das Programm zu einer entsprechenden Node gelenkt werden kann, was ähnlich zum Suchalgorithmus
-von Korel ist \cite{korel1990dynamic}. Dieser Vorgang wird nun so oft wiederholt, bis alle möglichen Pfade ausgeführt
-wurden \cite{godefroid2005dart}.
+Die Instrumentalisierung des Programms beginnt also mit der Initialisierung des Inputvektors und des Stacks. Dieser
+beruht auf zufälligen Daten. Anschließend wird für die \textit{Symbolic Execution} ein \textit{Symbolic Memory} angelegt,
+dieses wird immer dann mit neuen Informationen versorgt, wenn es ein Assignment Statement erkennt \cite{godefroid2005dart}.
+Hier wird somit der Ausdruck \(e\) mithilfe des Memory Mapping und des Symbolic Memory symbolisch ausgewertet. Zeitgleich
+wird für dieses Statement der konkrete Wert berechnet und im Memory Mapping gespeichert \cite{godefroid2005dart}. Da wir
+wissen, dass nach einem Assignment Statement ein neues Statement folgen muss, wird der Zeiger für das Statement um eins
+verschoben. Dieser Zeiger zeigt also nun auf das nächste verfügbare Statement. Im Falle eines Conditional Statements wird
+der Ausdruck \(e\) sowohl konkret als auch symbolisch evaluiert \cite{godefroid2005dart}. Sollte die konkrete Evaluierung
+den Wert \textit{wahr} zurückgeben, wird zum Speicher der \textit{Path Constraints} der symbolisch evaluierte Wert vom
+Ausdruck \(e\) hinzugefügt \cite{godefroid2005dart}. Außerdem wird der Stack aktualisiert, sodass dieser über den Wert
+der symbolischen Evaluierung Bescheid weiß. Im Falle, dass die konkrete Evaluierung den Wert \textit{falsch} zurück gibt,
+wird zum Speicher der \textit{Path Constraints} der negierte symbolisch evaluierte Wert vom Ausdruck \(e\) hinzugefügt
+\cite{godefroid2005dart}. Der Stack wird nun mit der Information aktualisiert, dass der konkret evaluierte Wert \textit{falsch}
+betrug \cite{godefroid2005dart}. Außerdem wird das nächste zu evaluierende Statement auf das nächste verfügbare Statement
+gesetzt \cite{godefroid2005dart}. Sollte das Statement \textit{Abort} beinhalten, bricht DART an der Stelle ab und wirft
+eine Exception, welche wiederum vom Testdriver aufgefangen werden kann. Im Falle eines \textit{Halt} Statements wird
+der \textit{Path Constraint Solver} aufgerufen. Dies bedeutet, dass das Programm auf normalen Weg beendet wurde, ohne
+dass ein Fehler gefunden wurde.
 
-Hierbei wird nicht nur die konkrete Ausführung des Programms selbst durchgeführt, sondern auch die Ausführung des Programms
-mit \textit{symbolischen Werten}. King sagt, dass es sich bei der Ausführung mithilfe von symbolischen Werten um eine
-Erweiterung der normalen Ausführung handelt \cite{king1976symbolic}. Somit werden für eine Sprache die Operatoren derart
-erweitert, dass sie ebenso symbolische Werte annehmen und verarbeiten können. Diese produzieren dann \textit{symbolic formulas}
-als Ausgabe \cite{king1976symbolic}, welche wiederum von DART genutzt werden können, sodass daraus \textit{Constraints}
-abgeleitet werden können \cite{godefroid2005dart}.
+\subsection{Path Constraint Solver}
+Der Path Constraint Solver sucht nach einem geeigneten Eingabewert, welcher für den gesamten Ausdruck \textit{wahr}
+Rückgabewert hat.
 
-
-Der DART Algorithmus arbeitet also folgendermaßen. Wie man in \ref{fig:testdriver-dart} erkennen kann, werden zunächst
-ein Stack und der Inputvektor zurückgesetzt, sodass dieser durch den Directed Search Algorithmus berechnet werden kann
-
-\begin{figure}[h!]
-    \includegraphics[scale=0.2]{Bilder/dart/testdriver.png}
-    \caption{Test Driver nach Godefroid}
-    \label{fig:testdriver-dart}
-\end{figure}
