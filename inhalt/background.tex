@@ -1,4 +1,6 @@
 \chapter{Background Information}
+\section{Testing in General}
+\section{Search Algorithms}
 \section{Symbolic Execution}
 Die Ausführung eines Programms kann mittels konkreten Werten oder symbolischen Werten veranlasst werden. Zur Analyse des
 zu testenden Programms wird es mithilfe von symbolischen Werten ausgeführt. Um zu demonstrieren wie dies funktioniert,
@@ -17,4 +19,5 @@ werden fortlaufend alle Verschachtelungen untersucht und wo es möglich ist nachv
 Listing \ref{lst:function-fh} in Zeile 3 die Bedingung \(x \neq y\). Aus der Analyse zur symbolischen Ausführung folgt
 daher \(x \neq y \mapsto x_0 \neq y_0\) und für Zeile 4 \(f(x) = x+10 \mapsto 2*x_0 = x_0+10\). Die symbolischen
 Variablen \(x_0\) und \(y_0\) enthalten hier die Speicheradressen für \(x\) und \(y\). Somit lassen sich über die
-Ausführung mithilfe von symbolischen Werten Gleichungssysteme bestimmen, welche dann gelöst werden können \cite{godefroid2005dart}.
+Ausführung mithilfe von symbolischen Werten Gleichungssysteme bestimmen, welche dann gelöst werden können\cite{godefroid2005dart}.
+
