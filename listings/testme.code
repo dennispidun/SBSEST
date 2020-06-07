@@ -1,0 +1,19 @@
+typedef struct cell {
+    int v;
+    struct cell *next;
+} cell;
+
+int
+f(int v) {
+    return 2*v + 1;
+}
+
+int
+testme(cell *p, int x) {
+    if (x > 0)
+        if (p != NULL)
+            if (f(x) == p->v)
+                if (p->next == p)
+                 ERROR;
+    return 0;
+}

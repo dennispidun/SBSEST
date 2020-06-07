@@ -76,9 +76,59 @@ Die einfachste Art zu überprüfen, ob die Berechnung erfolgreich war, ist es das 
 auszuführen. Wenn der gewünschte Pfad nicht abgegangen wird, bezeichnet Korel dies als Verletzung des \textit{Constraint}
 \cite{korel1990dynamic}.
 
-\section{Probleme}
+\subsection{Conducting a Search}
+Um die Komplexität des Problems zu veringern, wird zunächst nur ein Teil der Eingabewerte betrachtet. Zeitgleich
+bleiben die restlichen Werte konstant. Man sucht also solange nach einer Lösung für $x_1$ bis die Branch Funktion
+negativ wird. Sollte dies nicht möglich sein, wird nach dem Minimum der Funktion selbst gesucht \cite{korel1990dynamic}.
+Im nächsten Schritt führt man dies mit den restlichen Eingabewerten durch, bis alle Eingabewerte bestimmt wurden. Der
+Prozess beginnt nun von vorne, bis die gesamte Branch Funktion negativ ist, sodass hier die Pfadbeschränkung umgangen
+werden kann. Im Falle, dass kein weiterer Fortschritt gemacht werden kann, bricht der Suchprozess an dieser Stelle
+ab \cite{korel1990dynamic}.
+
+\subsection{One-Dimensional Search Procedure}
+Die \textit{One-Dimensional Search Procedure} nach Glass et al., welche bei Korel zum Einsatz kommt, besteht aus zwei
+Phasen \cite{glass1965sequential}. Um das Suchproblem in die richtige Richtung zu lenken, gibt es also  die die
+\textit{exploratory search}-Phase und  die \textit{pattern-search}-Phase. Bei der \textit{exploratory search}-Phase wird
+der ausgewählte Eingabewert in kleinen Schritten sowohl dekrementiert als auch inkrementiert, während die anderen Werte
+konstant gehalten werden \cite{glass1965sequential}. Mit jeder Iteration, wird das zu testende Programm ausgeführt und
+die Werte der Branchfunktionen verglichen. Dies ermöglicht es, darüber zu entscheiden in welche Richtung der Eingabewert
+weiter verändert werden muss \cite{korel1990dynamic}. Somit kann die \textit{exploratory search}-Phase die Richtung
+bestimmen, in welche das Suchverfahren fortgesetzt werden muss. Demnach kann ein sogenannter größerer
+\textit{Pattern Move} durchgeführt werden. Anschließend werden wieder die Pfadbeschränkungen auf Verstöße überprüft.
+Sollten hier keine Verstöße verzeichnet werden und der gewünschte Branch nicht besucht werden, wird die Branch Funktion
+ausgewertet und mit früheren Werten verglichen. Wenn der Wert optimaler ist, als der Vorherige wird dieser durch den
+neuen Wert ersetzt \cite{korel1990dynamic}. Ein erneuter \textit{Pattern Move} in die selbe Richtung wird nun ausgeführt.
+Dies sorgt dafür, dass man schneller an das gewünschte Ziel gelangt, so dass man hier keine Ressourcen verschwendet.
+Sollte nun der \textit{Pattern Move} fehlschlagen, wird erneut die \textit{exploratory search}-Phase aufgerufen, sodass
+wieder eine Richtung bestimmt werden kann. Dieser Prozess wird solange wiederholt, bis die Branch Funktion negativ wird
+,den Wert null hat oder ein Minimum erreicht wurde \cite{korel1990dynamic}. Sollte lediglich ein Minimum erreicht werden,
+wird dieses vorerst notiert und der Prozess mit dem nächsten Eingabewert durchgeführt.
+
+Durch zu viele Pfadbeschränkungen wird dieser Algorithmus sehr uneffizient. Korel löst dies, indem er die Bedingungen für
+den Durchlauf vereinfacht. Hierbei werden \textit{Non-Essential Branches} nicht weiter ausgewertet und bei einem Bruch
+der Pfadbeschränkung nicht durch einen Suchprozess unterbrochen \cite{korel1990dynamic}. Dies führt dazu, dass die starre
+Selektierung des Weges wegfällt und sich so auf die Zielnode konzentriert werden kann. Korel lockert also die Bedingung,
+dass alle Subgoals erfolgreich gelöst werden müssen. Als Beispiel sei Figure \ref{fig:flow-graph} zu betrachten. Angenommen
+$N_1$ sei die Startnode und $N_6$ sei die Zielnode, so ist es relativ egal, ob das Programm den Pfad (2, 3) oder (2, 4)
+nimmt. In diesem Beispiel führen also beide Pfade zur entsprechenden Zielnode.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.15\textwidth]{Bilder/flow-graph.png}
+    \caption{Beispiel Control Flow Graph}
+    \label{fig:flow-graph}
+\end{figure}
+
+\section{Nachteile und Probleme}
+Auch wenn die dynamische Generierung von Testdaten einen enormen Vorteil bietet, existieren auch einige Probleme, welche
+durch den dynamischen Ansatz von Korel. So behaupten Godefroid et al. beispielsweise, dass beim Ansatz von Korel nicht alle
+möglichen Pfade beachtet werden und so mögliche Fehler nicht beachtet werden können \cite{godefroid2005dart} \cite{korel1990dynamic}
+
 
 ......................................................................
+
+
+
 DART attempts to cover all executable program paths \cite{godefroid2005dart}
 
 Dynamic Approach: geht nur in eine Richtung, Fokus liegt auf das Finden zu Node Y
