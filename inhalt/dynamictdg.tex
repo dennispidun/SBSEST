@@ -37,10 +37,10 @@ also nicht verworfen. Außerdem gibt es noch \textit{semi-critical branches}, wel
 und in Zyklen enden können. Diese werden für den Suchalgorithmus verworfen. Die \textit{non-essential branches} werden
 nicht verworfen, da diese keinen Einfluss auf die Node Y haben können \cite{korel1990dynamic}.
 
-\section{Generierung von neuen Eingabewerten}
-Mit dem Lösen von sogenannten Subgoals beschreibt Korel die Generierung von Eingabewerten für das zu testende Programm.
+\section{Solving Subgoals}
+Mit dem Lösen von sogenannten Subgoals werden auf dem Pfad zur gewünschten Node jegliche Pfadbeschränkungen gelöst.
 Auf dem Weg von einer Start-Node zu einer Node Y, durchläuft das Programm einen entsprechenden Pfad. Sollte das Programm
-nun einen Weg einschlagen, wodurch es die Ziel-Node Y nicht mehr erreichen kann, wird versucht ein neuer Eingabewert
+nun einen Weg einschlagen, wodurch es die Ziel-Node Y nicht mehr erreichen kann, wird versucht ein neuen Eingabewert
 zu generieren. Dieser neue Eingabewert soll im Idealfall an dieser Beschränkung vorbeikommen, sodass es zur gewünschten
 Node Y gelangt \cite{korel1990dynamic}. Korel beschreibt dies als \textit{Solving Subgoals}. Hierbei wird versucht mithilfe
 von neuen zufälligen Eingabewerten die Beschränkung aufzulösen.
@@ -65,7 +65,16 @@ können nach Tabelle \ref{tab:bspTabelle} in folgedene Formen umgewandelt werden:
     \end{tabular}
 \end{table}
 
-
+Stelle man sich nun einen (zufälligen) Eingabewert \(x_0\) vor, mit dem das zu testende Programm gestartet wird, kann es
+dazu kommen, dass die gewünschte Node Y entweder erreicht wird oder nicht. Sollte die gewünschte Node nicht erreicht werden
+können, muss das erste \textit{Subgoal} gelöst werden \cite{korel1990dynamic}. Korel sagt nun, dass man sich eine Branch
+Funktion \(F_j(x)\) vorstellen kann, welche genau die Pfadbeschränkung darstellt, welche das Programm nicht zur gewünschten
+Node gelangen lässt \cite{korel1990dynamic}. Somit wird ein Wert \(x \in D\) gesucht, welcher $F_j(x)$  $\fett{rel}_j$  $0$
+befriedigt, sodass die Pfadbeschränkung an dieser Stelle gelöst ist. Abhängig von $\fett{rel}_j$ kann man also eine
+Funktion $F_j(x)$ minimieren und solange nach einer Lösung suchen bis $F_j(x)$ negativ wird \cite{korel1990dynamic}.
+Die einfachste Art zu überprüfen, ob die Berechnung erfolgreich war, ist es das Programm mit der neuen Eingabe einfach
+auszuführen. Wenn der gewünschte Pfad nicht abgegangen wird, bezeichnet Korel dies als Verletzung des \textit{Constraint}
+\cite{korel1990dynamic}.
 
 \section{Probleme}
 
