@@ -1,10 +1,22 @@
 \chapter{Background Information}
+Mit dem Abschnitt \textit{Background Information} sollen Grundlagen geschaffen werden und der Leser soll in die Thematik
+eingeführt werden. Dazu soll zunächst \textit{Testing in General} erklärt werden. Anschließend werden verschiedene
+\textit{Suchverfahren vorgestellt werden}. Im letzten Kapitel werden \textit{Symbolic Executions} erklärt werden und
+aufgezeigt werden, welche Relevanz es für die verschiedenen Tools hat.
+
 \section{Testing in General}
+Bei Testing in General werden verschiedene Methoden vorgestellt, wie man ein Programm testet, wie es in der Vergangenheit
+häufig durchgeführt wurde und (eventuell) welches Potenzial automatisierte Tests haben können. Außerdem werden Abgrenzungen
+zu Methoden wie TDD gezeigt.
+
 \section{Suchverfahren}
+Hierbei sollen verschiedene (klassische) Suchverfahren -und Methoden vorgestellt werden, sodass der Leser ein grundlegendes
+Verständnis für Suchverfahren hat. Außerdem wird aufgezeigt, wie man diese in Algorithmen integrieren kann.
+
 \section{Symbolic Execution}
 Die Ausführung eines Programms kann mittels konkreten Werten oder symbolischen Werten veranlasst werden. Zur Analyse des
 zu testenden Programms wird es mithilfe von symbolischen Werten ausgeführt. Um zu demonstrieren wie dies funktioniert,
-stelle man sich eine Funktion f(x) und eine Funktion h(x, y) vor. Zur Vereinfachung ist die Ausprägung der verwendeten
+stelle man sich eine Funktion \(f(x)\) und eine Funktion \(h(x, y)\) vor. Zur Vereinfachung ist die Ausprägung der verwendeten
 Funktionen gering. Zu betrachten sei somit folgender Code-Ausschnitt in Listing \ref{lst:function-fh}.
 
 \begin{minipage}{\linewidth}
