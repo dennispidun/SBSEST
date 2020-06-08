@@ -6,7 +6,7 @@ Dieses wird definiert durch:
     Given node Y in a program. The goal is to find a program input x on which node Y will be executed \cite{korel1990dynamic}.
 \end{quote}
 
-Dieses Problem wurde in der Vergangenheit damit gelöst, dass dieses auf das Path Problem reduziert wurde \cite{korel1990dynamic}.
+Dieses Problem wurde in der Vergangenheit damit gelöst, dass es auf das Path Problem reduziert wurde \cite{korel1990dynamic}.
 Bei diesem Ansatz werden nacheinander alle möglichen Wege zu eine Node Y gewählt. Für jeden möglichen Weg werden dann
 entsprechend Eingabewerte generiert, die zu Node Y führen könnten. Dies benötigt jedoch das Lösen einer Reihe von
 Ungleichungen, die in \textit{if} -und \textit{repeat} Statements vorkommen \cite{ince1987automatic}. Häufig wird daher
@@ -21,8 +21,8 @@ aktuelle Eingabe nicht zur gewünschten Node führt, wird ein neuer Eingabewert ge
 
 //Vergleich zu \cite{korel1990automated}, was ist anders?
 
-Damit Informationen über gewisse Branches zur Verfügung stehen, müssen diese klassifiziert werden. Dazu unterteilt Korel
-diese in 4 Kategorien:
+Damit Informationen über gewisse Branches zur Verfügung stehen, müssen diese klassifiziert werden. Dazu unterteilt sie
+Korel in 4 Kategorien:
 
 \begin{enumerate}
     \item A critical branch.
@@ -31,24 +31,24 @@ diese in 4 Kategorien:
     \item A non-essential branch.
 \end{enumerate}
 
-Somit braucht man die \textit{critical branches} nicht verwerten, da diese nicht zur gewünschten Node Y führen. Interessanter
+Somit ergibt es sich die \textit{critical branches} nicht zu verwerten, da diese nicht zur gewünschten Node Y führen. Interessanter
 sind die \textit{required branches}, da diese näher an die gewünschte Node führen können \cite{korel1990dynamic}. Diese werden
 also nicht verworfen. Außerdem gibt es noch \textit{semi-critical branches}, welche Einfluss auf den Weg zur Node Y haben
 und in Zyklen enden können. Diese werden für den Suchalgorithmus verworfen. Die \textit{non-essential branches} werden
-nicht verworfen, da diese keinen Einfluss auf die Node Y haben können \cite{korel1990dynamic}.
+nicht verworfen, da sie keinen Einfluss auf die Node Y haben können \cite{korel1990dynamic}.
 
 \section{Solving Subgoals}
 Mit dem Lösen von sogenannten Subgoals werden auf dem Pfad zur gewünschten Node jegliche Pfadbeschränkungen gelöst.
 Auf dem Weg von einer Start-Node zu einer Node Y, durchläuft das Programm einen entsprechenden Pfad. Sollte das Programm
 nun einen Weg einschlagen, wodurch es die Ziel-Node Y nicht mehr erreichen kann, wird versucht ein neuen Eingabewert
 zu generieren. Dieser neue Eingabewert soll im Idealfall an dieser Beschränkung vorbeikommen, sodass es zur gewünschten
-Node Y gelangt \cite{korel1990dynamic}. Korel beschreibt dies als \textit{Solving Subgoals}. Hierbei wird versucht mithilfe
+Node Y gelangt \cite{korel1990dynamic}. Korel beschreibt dies als \textit{Solving Subgoals}. Hierbei wird versucht, mithilfe
 von neuen zufälligen Eingabewerten die Beschränkung aufzulösen.
 
 Um dies zu vereinfachen, geht Korel davon aus, dass es sich hierbei um einfache Gleichungen beziehungsweise Ungleichungen
 handelt \cite{korel1990dynamic}. Somit ist \(E_1\) \fett{op} \(E_2\) die Form der Ausdrücke, wobei \(E_1\) und \(E_2\)
 simple arithmetische Ausdrücke sind und \fett{op} ein Vergleichsoperator ist \cite{korel1990dynamic}. Diese Ausdrücke
-können nach Tabelle \ref{tab:bspTabelle} in folgedene Formen umgewandelt werden: \(F\) \fett{rel} 0.
+können nach Tabelle \ref{tab:bspTabelle} in folgende Formen umgewandelt werden: \(F\) \fett{rel} 0.
 
 \begin{table}[h]
     \centering
@@ -71,14 +71,14 @@ können, muss das erste \textit{Subgoal} gelöst werden \cite{korel1990dynamic}. K
 Funktion \(F_j(x)\) vorstellen kann, welche genau die Pfadbeschränkung darstellt, welche das Programm nicht zur gewünschten
 Node gelangen lässt \cite{korel1990dynamic}. Somit wird ein Wert \(x \in D\) gesucht, welcher $F_j(x)$  $\fett{rel}_j$  $0$
 befriedigt, sodass die Pfadbeschränkung an dieser Stelle gelöst ist. Abhängig von $\fett{rel}_j$ kann man also eine
-Funktion $F_j(x)$ minimieren und solange nach einer Lösung suchen bis $F_j(x)$ negativ wird \cite{korel1990dynamic}.
+Funktion $F_j(x)$ minimieren und so lange nach einer Lösung suchen, bis $F_j(x)$ negativ wird \cite{korel1990dynamic}.
 Die einfachste Art zu überprüfen, ob die Berechnung erfolgreich war, ist es das Programm mit der neuen Eingabe einfach
 auszuführen. Wenn der gewünschte Pfad nicht abgegangen wird, bezeichnet Korel dies als Verletzung des \textit{Constraint}
 \cite{korel1990dynamic}.
 
 \subsection{Conducting a Search}
-Um die Komplexität des Problems zu veringern, wird zunächst nur ein Teil der Eingabewerte betrachtet. Zeitgleich
-bleiben die restlichen Werte konstant. Man sucht also solange nach einer Lösung für $x_1$ bis die Branch Funktion
+Um die Komplexität des Problems zu verringern, wird zunächst nur ein Teil der Eingabewerte betrachtet. Zeitgleich
+bleiben die restlichen Werte konstant. Man sucht also so lange nach einer Lösung für, $x_1$ bis die Branch Funktion
 negativ wird. Sollte dies nicht möglich sein, wird nach dem Minimum der Funktion selbst gesucht \cite{korel1990dynamic}.
 Im nächsten Schritt führt man dies mit den restlichen Eingabewerten durch, bis alle Eingabewerte bestimmt wurden. Der
 Prozess beginnt nun von vorne, bis die gesamte Branch Funktion negativ ist, sodass hier die Pfadbeschränkung umgangen
@@ -87,21 +87,21 @@ ab \cite{korel1990dynamic}.
 
 \subsection{One-Dimensional Search Procedure}
 Die \textit{One-Dimensional Search Procedure} nach Glass et al., welche bei Korel zum Einsatz kommt, besteht aus zwei
-Phasen \cite{glass1965sequential}. Um das Suchproblem in die richtige Richtung zu lenken, gibt es also  die die
+Phasen \cite{glass1965sequential}. Um das Suchproblem in die richtige Richtung zu lenken, gibt es also die
 \textit{exploratory search}-Phase und  die \textit{pattern-search}-Phase. Bei der \textit{exploratory search}-Phase wird
 der ausgewählte Eingabewert in kleinen Schritten sowohl dekrementiert als auch inkrementiert, während die anderen Werte
-konstant gehalten werden \cite{glass1965sequential}. Mit jeder Iteration, wird das zu testende Programm ausgeführt und
+konstant gehalten werden \cite{glass1965sequential}. Mit jeder Iteration wird das zu testende Programm ausgeführt und
 die Werte der Branchfunktionen verglichen. Dies ermöglicht es, darüber zu entscheiden in welche Richtung der Eingabewert
 weiter verändert werden muss \cite{korel1990dynamic}. Somit kann die \textit{exploratory search}-Phase die Richtung
 bestimmen, in welche das Suchverfahren fortgesetzt werden muss. Demnach kann ein sogenannter größerer
 \textit{Pattern Move} durchgeführt werden. Anschließend werden wieder die Pfadbeschränkungen auf Verstöße überprüft.
 Sollten hier keine Verstöße verzeichnet werden und der gewünschte Branch nicht besucht werden, wird die Branch Funktion
-ausgewertet und mit früheren Werten verglichen. Wenn der Wert optimaler ist, als der Vorherige wird dieser durch den
+ausgewertet und mit früheren Werten verglichen. Wenn der Wert optimaler ist als der Vorherige, wird dieser durch den
 neuen Wert ersetzt \cite{korel1990dynamic}. Ein erneuter \textit{Pattern Move} in die selbe Richtung wird nun ausgeführt.
-Dies sorgt dafür, dass man schneller an das gewünschte Ziel gelangt, so dass man hier keine Ressourcen verschwendet.
+Dies sorgt dafür, dass man schneller an das gewünschte Ziel gelangt, sodass man hier keine Ressourcen verschwendet.
 Sollte nun der \textit{Pattern Move} fehlschlagen, wird erneut die \textit{exploratory search}-Phase aufgerufen, sodass
-wieder eine Richtung bestimmt werden kann. Dieser Prozess wird solange wiederholt, bis die Branch Funktion negativ wird
-,den Wert null hat oder ein Minimum erreicht wurde \cite{korel1990dynamic}. Sollte lediglich ein Minimum erreicht werden,
+wieder eine Richtung bestimmt werden kann. Dieser Prozess wird so lange wiederholt, bis die Branch Funktion negativ wird,
+den Wert null hat oder ein Minimum erreicht wurde \cite{korel1990dynamic}. Sollte lediglich ein Minimum erreicht werden,
 wird dieses vorerst notiert und der Prozess mit dem nächsten Eingabewert durchgeführt.
 
 Durch zu viele Pfadbeschränkungen wird dieser Algorithmus sehr uneffizient. Korel löst dies, indem er die Bedingungen für
@@ -121,8 +121,8 @@ nimmt. In diesem Beispiel führen also beide Pfade zur entsprechenden Zielnode.
 
 \section{Nachteile und Probleme}
 Auch wenn die dynamische Generierung von Testdaten einen enormen Vorteil bietet, existieren auch einige Probleme, welche
-durch den dynamischen Ansatz von Korel. So behaupten Godefroid et al. beispielsweise, dass beim Ansatz von Korel nicht alle
-möglichen Pfade beachtet werden und so mögliche Fehler nicht beachtet werden können \cite{godefroid2005dart} \cite{korel1990dynamic}
+durch den dynamischen Ansatz von Korel entstehen. So behaupten Godefroid et al. beispielsweise, dass beim Ansatz von Korel nicht alle
+möglichen Pfade beachtet werden und so mögliche Fehler nicht berücksichtigt werden können \cite{godefroid2005dart} \cite{korel1990dynamic}
 
 
 T.B.C.......................................................
@@ -138,6 +138,6 @@ how to check at run-time whether predictions about new test inputs are matched i
 not discuss completeness. \cite{godefroid2005dart}
 .......................................................................
 \section{Test Data Generation for Distributed Software}
-Mit diesem Kapitel soll erforscht werden, ob sich der Ansatz von Korel auch auf \textit{Distributed Software} übertragen
+iN diesem Kapitel soll erforscht werden, ob sich der Ansatz von Korel auch auf \textit{Distributed Software} übertragen
 lässt. Zudem sollen Schwierigkeiten bei dieser Art von Software aufgezeigt werden und (eventuelle) Lösungen präsentiert
 werden. Der Leser soll somit durch dieses Kapitel ein Verständnis für die Problematik bekommen.

@@ -2,19 +2,19 @@
 Die \textit{Concolic Unit Testing Engine} (CUTE) ist ein weiteres Tool zur Generierung von Testdaten, welches auf
 Suchverfahren aufbaut. Im Gegensatz zum Ansatz von Korel \cite{korel1990dynamic} und Godefroid et al. \cite{godefroid2005dart}
 wird bei CUTE das Programm nicht mit zufälligen Eingabewerten ausgeführt. Diese zufällige Eingabe erzeugt nämlich zwei
-Probleme. Beispielsweise können viele verschiedene Eingaben zum gleichen Resultat führen, was die Ausführungszeit
-drastisch erhöht \cite{sen2005cute}. Außerdem ist die Wahrscheinlichkeit darüber Fehler zu finden sehr gering
+Probleme. Zum einen können viele verschiedene Eingaben zum gleichen Resultat führen, was die Ausführungszeit
+drastisch erhöht \cite{sen2005cute}. Zum anderen ist die Wahrscheinlichkeit darüber Fehler zu finden sehr gering
 \cite{sen2005cute}. Somit benötigt es einen Ansatz, welcher dafür sorgt, dass diese Probleme verhindert werden und somit
-die Ausführungszeit verringert. Da es DART schwer fällt Zeigeroperationen korrekt zu verarbeiten, führen Sen et al. somit
-CUTE ein, welches ebenfalls in der Lage sein soll mit diesen Schwierigkeiten umzugehen.
+die Ausführungszeit verringert. Da es DART schwer fällt, Zeigeroperationen korrekt zu verarbeiten, führen Sen et al. somit
+CUTE ein, welches ebenfalls in der Lage sein soll, mit diesen Schwierigkeiten umzugehen.
 \begin{quote}
     The key idea of our method is to represent inputs for the unit under test using a \textit{logical input map} that
     represents all inputs [...] and then to build constraints on these inputs by symbolically executing the code under
     test \cite{sen2005cute}.
 \end{quote}
-Somit basiert CUTE nicht auf der zufälligen Generierung von Testdaten. Es wird viel mehr versucht die Bedingungen symbolisch
-zu lösen, so dass hier keine Ausführung des Programms selbst notwendig ist. Zur Auflösung der Bedingungen und zur
-Berechnung von konkreten Werten wird die \textit{Logical Input Map} genutzt \cite{sen2005cute}. Um zu demonstrieren
+Somit basiert CUTE nicht auf der zufälligen Generierung von Testdaten. Es wird viel mehr versucht, die Bedingungen symbolisch
+zu lösen, sodass hier keine Ausführung des Programms selbst notwendig ist. Zur Auflösung der Bedingungen und zur
+Berechnung von konkreten Werten wird die \textit{Logical Input Map} genutzt \cite{sen2005cute}. Um zu demonstrieren,
 wie CUTE arbeitet, sei zunächst folgende Beispielfunktion aus Listing \ref{lst:testme} zu betrachten.
 
 \begin{minipage}{\linewidth}
@@ -28,7 +28,7 @@ wie DART. Hierbei wird zunächst der Parameter \(*p\) mit NULL aufgerufen. Für \(
 \cite{godefroid2005dart, sen2005cute}. Beim Durchlaufen des Programms werden nun alle Pfadbeschränkungen vermerkt. Da der
 Wert NULL für \(*p\) dafür sorgt, dass die Auswertung der \(if\)-Anweisung \textit{falsch} als Ergebnis liefert, müssen
 hier die symbolischen Ausdrücke umgedreht werden \cite{sen2005cute}. Wenn $p_0$ und $x_0$ die symbolischen Variablen von
-$*p$ und $x$ darstellen, dann kann man bei der Ausführungen folgende Pfadbeschränkungen notieren: $x_0 > 0$ für die
+$*p$ und $x$ darstellen, dann kann man bei der Ausführung folgende Pfadbeschränkungen notieren: $x_0 > 0$ für die
 erste \(if\)-Anweisung und $p_0 = NULL$ für den else-Zweig der zweiten \(if\)-Anweisung \cite{sen2005cute}.
 
 

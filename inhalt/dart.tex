@@ -1,29 +1,29 @@
 \chapter{Directed Automated Random Testing}
 Das \textit{Directed Automated Random Testing} (DART) ist ein Werkzeug, welches in der Unit Testing Phase die Software-
-Entwickler*innen unterstützen kann. Besonders für größere Programme wird häufig eine Technik angewendet, bei der man
+Entwickler unterstützen kann. Besonders für größere Programme wird häufig eine Technik angewendet, bei der man
 zufällige Eingabewerte für das zu testende Programm erzeugt. In einigen Fällen erreicht man dadurch, dass man entsprechende
 Fehler im Quellcode finden kann. In anderen Fällen durchläuft man dadurch jedoch nicht die gewünschten Programmpfade,
 wodurch sich vermeintliche Fehler nicht aufspüren lassen. An diesem Punkt kann DART unterstützend wirken, da es mithilfe
 des Suchalgorithmus Eingabevektoren erzeugen kann, welche jeden Programmpfad ablaufen lassen können \cite{godefroid2005dart}.
 Außerdem kann DART Standardfehler erkennen. Unter anderem erkennt es Programmabstürze, Assertion Violations und Non-Terminations
-\cite{godefroid2005dart}. Da sich durch Randomtesting, keine hohe Codecoverage erhalten lässt wird der Ansatz derart erweitert,
-dass dieser zielgerichtet versucht gewisse Eingabewerte schnell zu erzeugen. Wenn beispielsweise eine Bedingung lautet:
+\cite{godefroid2005dart}. Da sich durch Randomtesting keine hohe Codecoverage erhalten lässt, wird der Ansatz derart erweitert,
+dass dieser zielgerichtet versucht, gewisse Eingabewerte schnell zu erzeugen. Wenn beispielsweise eine Bedingung lautet:
 ``if (x == 10) then ...'', ist die Chance gering, dass man durch zufällige Eingaben die entsprechend richtige Eingabe
 findet \cite{godefroid2005dart}. Um dies zu verhindern, verbindet DART \textit{automated interface extraction} mit
 \textit{dynamic test generation} \cite{godefroid2005dart}. Dies sorgt dafür, dass die Wahrscheinlichkeit, dass der
 \textit{then-Bereich} der Bedingung ausgeführt wird, bei 0.5 liegt \cite{godefroid2005dart}. Somit ist die Zeit, die man
-für überflüssige Eingabewerte aufbringt deutlich geringer.
+für überflüssige Eingabewerte aufbringt, deutlich geringer.
 
 Um automatisiert Testdaten zu erzeugen, sind drei Techniken notwendig: (1) \textit{Auslesen der Interfaces},
 (2) \textit{Generierung der Testdriver} und (3) \textit{Analyse des Programms} \cite{godefroid2005dart}. Damit DART
 entsprechend Eingabevektoren bilden kann, wird das Programm statisch analysiert. Bei diesem Schritt werden alle externen
 Interfaces ausgelesen und analysiert. Dies geschieht, sodass die externe Umgebung durch DART gesteuert werden kann.
-In diesem Fall können Mockobjekte gebildet werden, welche es dann DART erlauben, die Ausführung genauer zu steuern.
-Aufbauend darauf kann dann die Generierung des Testdrivers begonnen werden. Dieser enthält alle nötigen Schritte, welche
-das Programm testen und Fehler aufdecken \cite{godefroid2005dart}. Im letzten Schritt wird das Programm nun analysiert. Hierzu wird untersucht,
-wie sich das Programm verhält, wenn es zufällige Eingabewerte erhält \cite{godefroid2005dart}. Aufbauend darauf, werden
-nun automatisch neue Testeingabewerte generiert, sodass die Ausführung entlang aller Pfade gelenkt werden
-kann \cite{godefroid2005dart}.
+In diesem Fall können Mockobjekte gebildet werden, welche es DART erlauben, die Ausführung genauer zu steuern.
+Aufbauend darauf kann mit der Generierung des Testdrivers begonnen werden. Dieser enthält alle nötigen Schritte, welche
+das Programm testen und Fehler aufdecken \cite{godefroid2005dart}. Im letzten Schritt wird das Programm nun analysiert.
+Hierzu wird untersucht, wie sich das Programm verhält, wenn es zufällige Eingabewerte erhält \cite{godefroid2005dart}.
+Aufbauend darauf werden nun automatisch neue Testeingabewerte generiert, sodass die Ausführung entlang aller Pfade gelenkt
+werden kann \cite{godefroid2005dart}.
 
 \input{inhalt/dart/excmodel}
 \input{inhalt/dart/directedsearch}
@@ -31,9 +31,9 @@ kann \cite{godefroid2005dart}.
 
 \section{Systematic Modular Automated Random Testing}
 Ein Problem der Generierung von Testdaten bei DART ist die langsame Ausführung für größere Programme, sodass Godefroid et al.
-vorschlagen dies kompositionell durchzuführen. So stellt Godefroid et al. einen neuen Algorithmus vor, welchen sie
+vorschlagen dies kompositionell durchzuführen. So stellen Godefroid et al. einen neuen Algorithmus vor, welchen sie
 \textit{Systematic Modular Automated Random Testing} (SMART) nennen \cite{godefroid2007compositional}.
 
 Dieses Kapitel soll damit fortgesetzt werden, dass es zeigt, wie SMART generell funktioniert. Außerdem werden Vor -und
-Nachteile präsentiert und gezeigt welche Unterschiede zu DART selbst bestehen. Es werden also grundlegende Unterschiede
-aufgezeigt und verdeutlicht warum genau das SMART besser macht als DART.
+Nachteile präsentiert und gezeigt, welche Unterschiede zu DART selbst bestehen. Es werden also grundlegende Unterschiede
+aufgezeigt und verdeutlicht warum SMART besser geeignet ist als DART.
