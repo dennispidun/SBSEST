@@ -1,35 +1,22 @@
 \chapter{Background Information}
 Mit dem Abschnitt \textit{Background Information} sollen Grundlagen geschaffen werden und der Leser soll in die Thematik
-eingeführt werden. Dazu soll zunächst \textit{Testing in General} erklärt werden. Anschließend werden verschiedene
+eingeführt werden. Dazu soll zun?chst \textit{Testing in General} erklärt werden. Anschließend werden verschiedene
 \textit{Suchverfahren} vorgestellt werden. Im letzten Unterkapitel werden \textit{Symbolic Executions} erklärt und
 aufgezeigt, welche Relevanz es für die verschiedenen Tools hat.
 
-\section{Testing in General}
+\section{Testverfahren}
 Bei Testing in General werden verschiedene Methoden vorgestellt, wie man ein Programm testet, wie es in der Vergangenheit
-häufig durchgeführt wurde und (eventuell) welches Potenzial automatisierte Tests haben können. Außerdem werden Abgrenzungen
+häufig durchgeführt wurde und welche Potenziale automatisierte Tests haben können. Außerdem werden Abgrenzungen
 zu Methoden wie TDD gezeigt.
+% Komponententests}
+% Integegrationstests
 
-\section{Suchverfahren}
+\section{Heuristische Suchverfahren}
 Hierbei sollen verschiedene (klassische) Suchverfahren -und Methoden vorgestellt werden, sodass der Leser ein grundlegendes
 Verständnis für Suchverfahren hat. Außerdem wird aufgezeigt, wie man diese in Algorithmen integrieren kann.
 
-\section{Symbolic Execution}
-Die Ausführung eines Programms kann mittels konkreten Werten oder symbolischen Werten veranlasst werden. Zur Analyse des
-zu testenden Programms wird es mithilfe von symbolischen Werten ausgeführt. Um zu demonstrieren, wie dies funktioniert,
-stelle man sich eine Funktion \(f(x)\) und eine Funktion \(h(x, y)\) vor. Zur Vereinfachung ist die Ausprägung der verwendeten
-Funktionen gering. Zu betrachten sei somit folgender Code-Ausschnitt in Listing \ref{lst:function-fh}.
+\subsection{Hillclimb}
 
-\begin{minipage}{\linewidth}
-    \lstset{language=c, basicstyle=\footnotesize, showstringspaces=false,tabsize=2}
-    \lstinputlisting[label={lst:function-fh},caption={Demonstrationsbeispiel von DART nach Godefroid et al.}]{listings/function-fh.code}
-\end{minipage}
-
-Hierbei werden für jede Verschachtelung equivalente Gleichungen geschaffen, welche statt Programmvariablen symbolische
-Werte beinhalten. Somit folgt \(x \mapsto x_0\) und \(y \mapsto y_0\). Mithilfe dieser symbolischen Werten lassen sich also
-symbolische Formeln ableiten, welche aus der Verfolgung der Unterprogramme entstehen \cite{godefroid2005dart}. Hierzu
-werden fortlaufend alle Verschachtelungen untersucht und, wo es möglich ist, nachverfolgt. Beispielsweise sieht man in
-Listing \ref{lst:function-fh} in Zeile 3 die Bedingung \(x \neq y\). Aus der Analyse zur symbolischen Ausführung folgt
-daher \(x \neq y \mapsto x_0 \neq y_0\) und für Zeile 4 \(f(x) = x+10 \mapsto 2*x_0 = x_0+10\). Die symbolischen
-Variablen \(x_0\) und \(y_0\) enthalten hier die Speicheradressen für \(x\) und \(y\). Somit lassen sich über die
-Ausführung mithilfe von symbolischen Werten Gleichungssysteme bestimmen, welche dann gelöst werden können\cite{godefroid2005dart}.
+\section{Search-Based Software Engineering}
+\subsection{Search-Based Software Testing}
 
